@@ -22,10 +22,9 @@ Unless you want to make changes you do not need to compile from source.
 
 ## Building
 
-The `dtb` that was built using these steps was tested on the following kernels:
+The `dtb` that was built using these steps was tested on the following kernel:
 
- * `4.4.30-ti-r64` (ships with the `bone-debian-8.6-seeed-iot-armhf-2016-11-06-4gb.img` image)
- * `4.4.87-ti-r121`
+ * `4.9.82-ti-r102` (ships with the `bone-debian-9.3-iot-armhf-2018-03-05-4gb.img` image)
 
 Requirements:
 
@@ -47,7 +46,7 @@ Where `KERNEL` should point to the top of the kernel tree.
 
 Copy the appropriate `dtb` file into `/boot/dtbs/<version>/` on SNA-LGTC
 (replace `<version>` with the kernel version you are currently using, e.g.
-`4.4.87-ti-r121`). Change owner to `root`. The `/boot/uEnv.txt` file should
+`4.9.82-ti-r102`). Change owner to `root`. The `/boot/uEnv.txt` file should
 contain the name of the `dtb` file to use. For example:
 
     dtb=am335x-lgtc-wireless.dtb
