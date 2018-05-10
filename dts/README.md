@@ -43,12 +43,12 @@ Where `KERNEL` should point to the top of the kernel tree.
 
 ## Installation
 
-Copy the appropriate `dtb` file into `/boot/dtbs/<version>/` on SNA-LGTC
+Copy the appropriate `dtb` file into `/boot/dtbs/<version>/` on CP-IOT
 (replace `<version>` with the kernel version you are currently using, e.g.
 `4.9.82-ti-r102`). Change owner to `root`. The `/boot/uEnv.txt` file should
 contain the name of the `dtb` file to use. For example:
 
-    dtb=am335x-lgtc-wireless.dtb
+    dtb=am335x-cp-iot.dtb
 
 The `dtb` file used must correspond to the board version you are using (see
 *Board versions* above) or you will encounter problems.
