@@ -14,8 +14,7 @@ Some helpful general information on device trees:
 
 We have device trees for these hardware versions:
 
- * `am335x-lgtc-wired.dtb` - wireless module and wired Ethernet placed (v1.1.2)
- * `am335x-lgtc-wireless.dtb` - only the wireless module placed (v1.1.3)
+ * `am335x-cp-iot.dts`
 
 Compiled binary files are in the `dtb` subdirectory and are ready to use.
 Unless you want to make changes you do not need to compile from source.
@@ -28,7 +27,7 @@ The `dtb` that was built using these steps was tested on the following kernel:
 
 Requirements:
 
- * BeagleBoard Linux source (https://github.com/avian2/linux, branch sna-lgtc)
+ * BeagleBoard Linux source (https://github.com/matevzv/linux, branch cp-iot)
 
 Prepare the kernel tree (run on the top of the kernel source):
 
