@@ -1,0 +1,10 @@
+[Unit]
+Description=Generate unique machine-id from eeprom
+
+[Service]
+Type=oneshot
+ExecStart=/bin/cp-iot-machine-id-setup
+ExecStartPost=/bin/systemctl disable cp-iot-machine-id
+
+[Install]
+WantedBy=multi-user.target
