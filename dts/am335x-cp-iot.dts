@@ -46,3 +46,80 @@
 &mac {
 	status = "disabled";
 };
+
+/* UART3 pins conflict with MII1 for wired Ethernet */
+&uart3 {
+			 status = "disabled";
+};
+
+/* Bluetooth on WL1837
+ *
+ * Serial interface is connected to UART1 (UART3 on BBGW). However, UART1 pins
+ * conflict with i2c2, which is used by cape-mgr. So we need to disable that.
+ *
+ * We also need to correct the BL_EN pinmux (SNA-LGTC has it on gpio3_18, BBGW
+ * has it on gpio1_28)
+ */
+
+&i2c2 {
+	status = "disabled";
+};
+
+/ {
+	bone_capemgr {
+		status = "disabled";
+	};
+};
+
+&am33xx_pinmux {
+	uart1_pins: pinmux_uart1_pins {
+		pinctrl-single,pins = <
+			/* uart1_txd */
+			0x184 (PIN_OUTPUT_PULLDOWN | MUX_MODE0)
+			/* uart1_rxd */
+			0x180 (PIN_INPUT_PULLUP | MUX_MODE0)
+			/* uart1.rts */
+			0x17c (PIN_OUTPUT_PULLDOWN | MUX_MODE0)
+			/* uart1.cts */
+			0x178 (PIN_INPUT | MUX_MODE0)
+		>;
+	};
+
+	bt_pins: pinmux_bt_pins {
+		pinctrl-single,pins = <
+			/* gpio3_18 BT_EN */
+			0x1a0 (PIN_OUTPUT | MUX_MODE7)
+		>;
+	};
+
+  i2c1_pins: pinmux_i2c1_pins {
+		pinctrl-single,pins = <
+			AM33XX_IOPAD(0x958, PIN_INPUT | MUX_MODE2) /* spi0_d1.i2c1_sda_mux3 */
+			AM33XX_IOPAD(0x95c, PIN_INPUT | MUX_MODE2) /* spi0_cs0.i2c1_scl_mux3 */
+		>;
+	};
+};
+
+&i2c1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&i2c1_pins>;
+	status = "okay";
+};
+
+&uart1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart1_pins &bt_pins>;
+	status = "okay";
+};
+
+/* Bluetooth sound interface is not connected.
+ *
+ * This prevents errors on boot regarding "davinci_evm sound" */
+/ {
+	sound {
+		status = "disabled";
+	};
+};
+
+#include "am335x-bone-pinmux-ttyS2.dtsi"
+#include "am335x-bone-pinmux-ttyS4.dtsi"
