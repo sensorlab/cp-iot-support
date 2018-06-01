@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 GPIO="$1"
+
+if [ -z "$GPIO" ]; then
+	echo "Error: No GPIO supplied!"
+	exit 1
+fi
+
 DIR="/sys/class/gpio/gpio$GPIO"
 
 echo "Working with $DIR"
