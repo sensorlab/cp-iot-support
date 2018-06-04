@@ -92,7 +92,7 @@
 		>;
 	};
 
-  i2c1_pins: pinmux_i2c1_pins {
+	i2c1_pins: pinmux_i2c1_pins {
 		pinctrl-single,pins = <
 			AM33XX_IOPAD(0x958, PIN_INPUT | MUX_MODE2) /* spi0_d1.i2c1_sda_mux3 */
 			AM33XX_IOPAD(0x95c, PIN_INPUT | MUX_MODE2) /* spi0_cs0.i2c1_scl_mux3 */
