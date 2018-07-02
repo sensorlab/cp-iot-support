@@ -10,7 +10,7 @@ fi
 
 if [ -z "$VALUE" ]; then
 	echo "Error: No VALUE supplied!"
-	exit 1  
+	exit 1
 fi
 
 DIR="/sys/class/gpio/gpio$GPIO"
