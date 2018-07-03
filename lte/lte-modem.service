@@ -5,7 +5,7 @@ After=network-online.target
 [Service]
 Type=oneshot
 TimeoutSec=180
-ExecStart=/bin/lte-modem up
+ExecStart=/bin/lte-modem --pin 1234 up
 ExecStop=/bin/lte-modem down
 ExecReload=/bin/lte-modem down
 RemainAfterExit=yes

@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
 
-PIN=2175
-
 case "$1" in
-	"up")
+	-h|--help)
+		echo "lte-modem --pin 1234 up"
+		echo "lte-modem down"
+		exit 0
+		;;
+	-p|--pin)
+		PIN="$2"
+		if [[ "$3" != "up" ]]; then
+			echo "Unsupported!"
+			echo "Try --help"
+			exit 1
+		fi
+		
 		echo "start LTE network"
 		set-gpio 113 0
 		set-gpio 115 0
@@ -12,7 +22,21 @@ case "$1" in
 
 		ATTEMPT=0
 		while [ $ATTEMPT -lt 100 ]; do
-			if [[ `qmicli -d /dev/cdc-wdm0 --uim-verify-pin=PIN1,"$PIN"` ]]; then
+			STATUS=`qmicli -d /dev/cdc-wdm0 --uim-get-card-status`
+
+			if [[ "$STATUS" == *"Successfully got card status"* ]]; then
+				RETRIES=`echo "$STATUS" | grep -A 12 'Application \[0\]:' | grep -o 'PIN1 retries: [^,]*' | cut -d':' -f2- | tr -dc '0-9'`
+				if [[ "$RETRIES" < 3 ]]; then
+					echo "Less than 3 PIN retries! Aborting ..."
+					exit 1
+				fi
+				
+				PINSTATUS=`qmicli -d /dev/cdc-wdm0 --uim-verify-pin=PIN1,"$PIN"`
+				if [[ "$PINSTATUS" != *"PIN verified successfully"* ]]; then
+					echo "Incorrect PIN! Aborting ..."
+					exit 1
+				fi
+				
 				while [[ `qmi-network /dev/cdc-wdm0 start` != *"Network started successfully"* ]]; do
 					echo "failed to setup LTE network"
 					sleep 1
@@ -37,6 +61,7 @@ case "$1" in
 		;;
 	*)
 		echo "Unsupported!"
+		echo "Try --help"
 		exit 1
 		;;
 esac
