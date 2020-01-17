@@ -1,0 +1,12 @@
+[Unit]
+Description=Creates unique id read form eeprom
+After=set-gpio.service generic-board-startup.service systemd-machine-id-commit.service
+Before=videk.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/id-eeprom.py
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
